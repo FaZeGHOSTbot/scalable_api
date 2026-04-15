@@ -6,7 +6,7 @@ const connectDB = async () => {
       throw new Error("MONGO_URI is missing in .env");
     }
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB Connected ✅");
+    console.log("MongoDB Connected");
   } catch (error) {
     console.error("DB Error:", error.message);
     process.exit(1);

@@ -4,7 +4,7 @@ const router = express.Router();
 const { register, login } = require("../controllers/authController");
 const { body } = require("express-validator");
 
-// ✅ REGISTER with validation
+// REGISTER with validation
 router.post(
   "/register",
   [
@@ -17,7 +17,7 @@ router.post(
   register
 );
 
-// ✅ LOGIN with validation
+//  LOGIN with validation
 router.post(
   "/login",
   [

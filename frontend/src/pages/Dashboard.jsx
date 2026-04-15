@@ -46,7 +46,7 @@ export default function Dashboard({ token, setToken }) {
 
     const data = await res.json();
 
-    setMessage(data.message); // 👈 shows "Admin access only"
+    setMessage(data.message); //  shows "Admin access only"
 
     fetchTasks();
   };

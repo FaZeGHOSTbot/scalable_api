@@ -10,7 +10,7 @@ exports.createTask = async (req, res, next) => {
 
     res.status(201).json(task);
   } catch (error) {
-    next(error); // ✅ use global error handler
+    next(error); //  use global error handler
   }
 };
 
@@ -34,7 +34,7 @@ exports.updateTask = async (req, res, next) => {
       { new: true }
     );
 
-    // ✅ handle not found
+    // handle not found
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
@@ -53,7 +53,7 @@ exports.deleteTask = async (req, res, next) => {
       userId: req.user.id
     });
 
-    // ✅ handle not found
+    // handle not found
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }
