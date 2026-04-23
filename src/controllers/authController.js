@@ -13,8 +13,9 @@ exports.register = async (req, res) => {
     }
 
     const { name, email, password } = req.body;
+    const normalizedEmail = String(email).trim().toLowerCase();
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: normalizedEmail }).lean();
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -23,7 +24,7 @@ exports.register = async (req, res) => {
 
     const user = await User.create({
       name,
-      email,
+      email: normalizedEmail,
       password: hashedPassword
     });
 
@@ -48,8 +49,9 @@ exports.login = async (req, res) => {
     }
 
     const { email, password } = req.body;
+    const normalizedEmail = String(email).trim().toLowerCase();
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail });
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }

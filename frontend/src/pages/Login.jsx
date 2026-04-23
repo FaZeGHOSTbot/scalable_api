@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { api } from "../lib/api";
 
 export default function Login({ setToken }) {
   const [email, setEmail] = useState("");
@@ -7,19 +8,16 @@ export default function Login({ setToken }) {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      setMessage("Please enter email and password");
+      return;
+    }
+
     setLoading(true);
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/v1/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email, password })
-      });
-
-      const data = await res.json();
+      const data = await api.login({ email, password });
 
       if (data.token) {
         localStorage.setItem("token", data.token);
@@ -28,7 +26,7 @@ export default function Login({ setToken }) {
         setMessage(data.message || "Login failed");
       }
     } catch (err) {
-      setMessage("Server not reachable ❌");
+      setMessage(err.message || "Server not reachable");
     }
 
     setLoading(false);

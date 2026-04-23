@@ -29,10 +29,54 @@ This project is a full-stack application built as part of a Backend Developer In
 - JWT token validation
 - Protected routes
 - Input validation using express-validator
+- Helmet security headers
+- Auth rate limiting for abuse protection
 
 ### 📄 API Documentation
 - Swagger UI available at:
 http://localhost:5000/api-docs
+
+### ⚡ Performance & Demo Readiness
+- Gzip compression enabled for API responses
+- MongoDB connection pool tuning via environment variables
+- Indexed task queries and optimized `.lean()` read paths
+- Task list pagination, sorting, and search API support
+- Lightweight in-memory task list cache with smart invalidation
+- Graceful shutdown handlers for clean demo restarts
+- Frontend code-splitting and centralized API client with request timeout
+
+### 🧰 Skills Showcase
+The frontend now includes a visible skills matrix you can use in a company demo. It highlights:
+- ReactJS
+- RestAPIs
+- Error Handling & Debugging
+- Performance Optimization
+- AI Prompting
+- Claude Code
+- Cursor
+
+It also labels adjacent technologies you can discuss honestly as part of the architecture story:
+- NextJS
+- Tailwind CSS
+- Typescript
+- PostgreSQL
+- Supabase
+- Vercel
+
+### 🚀 Modernization Path
+This repo can be upgraded in stages to a modern Next.js stack without losing the current backend demo.
+
+Recommended order:
+1. Move the frontend from Vite to Next.js.
+2. Convert the frontend to TypeScript.
+3. Replace custom CSS with Tailwind CSS.
+4. Host the frontend on Vercel.
+5. Optionally move auth and data persistence to Supabase later.
+
+Current compatibility notes:
+- Vercel works well for the frontend as-is, and even better after a Next.js migration.
+- Supabase is a good option if you want to replace MongoDB/Postgres-backed auth/data later.
+- Tailwind and TypeScript are both straightforward once the frontend is converted to Next.js.
 
 ---
 
@@ -49,6 +93,8 @@ http://localhost:5000/api-docs
 ### Frontend:
 - React.js (Vite)
 - Fetch API
+- Skills showcase UI for demo presentation
+- Ready for a staged Next.js / TypeScript / Tailwind migration
 
 ---
 
@@ -85,6 +131,10 @@ npm install
 PORT=5000
 MONGO_URI=your_mongodb_connection
 JWT_SECRET=your_secret_key
+NODE_ENV=development
+CORS_ORIGIN=http://localhost:5173
+MONGO_MAX_POOL_SIZE=20
+MONGO_MIN_POOL_SIZE=5
 
 ---
 
@@ -114,6 +164,13 @@ npm run dev
 - PUT /api/v1/tasks/:id
 - DELETE /api/v1/tasks/:id (Admin only)
 
+`GET /api/v1/tasks` query params:
+- `page` (default `1`)
+- `limit` (default `20`, max `100`)
+- `search` (title contains)
+- `sortBy` (`createdAt`, `updatedAt`, `title`)
+- `order` (`asc`, `desc`)
+
 ---
 
 ## 🔐 Role-Based Access Example
@@ -135,14 +192,15 @@ DELETE /tasks/:id
 - Dashboard for managing tasks
 - Create & delete tasks
 - Displays success/error messages
+- Skills matrix landing section for demo narration
 
 ---
 
 ## 📈 Scalability Considerations
 
-This project follows a modular and scalable architecture.
+This project follows a modular and scalable architecture with practical production optimizations already implemented.
 
-Future improvements:
+Next improvements:
 - Microservices architecture
 - Redis caching for performance
 - Load balancing for high traffic

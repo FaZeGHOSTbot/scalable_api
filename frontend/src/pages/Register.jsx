@@ -1,30 +1,24 @@
 import { useState } from "react";
+import { api } from "../lib/api";
 
 export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [message, setMessage] = useState("");
 
   const handleRegister = async () => {
+    if (!form.name || !form.email || !form.password) {
+      setMessage("All fields are required");
+      return;
+    }
+
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/v1/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(form)
-      });
-
-      const data = await res.json();
-
-      if (res.status === 201) {
-        setMessage("✅ Registered successfully!");
-      } else {
-        setMessage(data.message || "Error occurred");
-      }
-    } catch {
-      setMessage("Server error ❌");
+      await api.register(form);
+      setMessage("Registered successfully");
+      setForm({ name: "", email: "", password: "" });
+    } catch (err) {
+      setMessage(err.message || "Server error");
     }
   };
 
@@ -32,11 +26,11 @@ export default function Register() {
     <div>
       <h2>Register</h2>
 
-      <input placeholder="Name" onChange={e => setForm({ ...form, name: e.target.value })} />
+      <input value={form.name} placeholder="Name" onChange={e => setForm({ ...form, name: e.target.value })} />
       <br />
-      <input placeholder="Email" onChange={e => setForm({ ...form, email: e.target.value })} />
+      <input value={form.email} placeholder="Email" onChange={e => setForm({ ...form, email: e.target.value })} />
       <br />
-      <input placeholder="Password" type="password" onChange={e => setForm({ ...form, password: e.target.value })} />
+      <input value={form.password} placeholder="Password" type="password" onChange={e => setForm({ ...form, password: e.target.value })} />
       <br />
 
       <button onClick={handleRegister}>Register</button>
